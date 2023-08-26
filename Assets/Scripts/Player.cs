@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
         Console.Write(verticalInput + "\n");
 
-        //rb.AddForce(new Vector3.up(verticalInput),ForceMode.Impulse);
+        rb.AddForce(new Vector3.up(verticalInput),ForceMode.Impulse);
             
     }
 
