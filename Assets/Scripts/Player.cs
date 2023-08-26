@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
 
     //GameObject player=null;
     private Rigidbody rb = null;
+    private int jumps = 0;
     [SerializeField] float jumpForce =10f;
     [SerializeField] float speed =150f;
 
@@ -24,7 +25,7 @@ public class Player : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         onGround = true;
-
+        jumps = 0;
     }
 
     private void OnCollisionExit(Collision collision)
@@ -45,8 +46,9 @@ public class Player : MonoBehaviour
             Vector3 movement = new Vector3(horizontalInput, 0, verticalInput);
 
             //salto
-            if (Input.GetKeyUp(KeyCode.Space))
+            if (Input.GetKeyUp(KeyCode.Space) && jumps <2)
             {
+                jumps++;
 
                 Vector3 salto = new Vector3(0, jumpForce, 0);
 
