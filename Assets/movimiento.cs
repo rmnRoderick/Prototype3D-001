@@ -9,19 +9,31 @@ public class movimiento : MonoBehaviour
     [SerializeField] private Transform initPoint;
 
     [SerializeField] private Transform endPoint;
-    [SerializeField] private int time;
+    [SerializeField] private float time;
+
+    [SerializeField] private int loops;
+
+
+    private Vector3 initialPosition;
+    private Vector3 finalPosition;
 
     private Sequence mySeq;
 
     private void Start()
     {
-        transform.position = initPoint.position;
+        initialPosition=initPoint.position;
+        finalPosition=endPoint.position;
+        transform.position = initialPosition;
         mySeq = DOTween.Sequence();
 
-        mySeq.Append(transform.DOMove(endPoint.position, time));
-        mySeq.Append(transform.DOMove(initPoint.position, time));
-        mySeq.SetLoops(3);
+        DOTween.defaultEaseType = Ease.Linear;
+
+        mySeq.Append(transform.DOMove(finalPosition, time));
+        mySeq.Append(transform.DOMove(initialPosition, time));
+
+        mySeq.SetLoops(loops);
     }
 
-    
+
+
 }

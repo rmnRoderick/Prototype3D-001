@@ -47,7 +47,7 @@ public class Player : MonoBehaviour
 
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
 
         //salto // doble salto
@@ -74,7 +74,8 @@ public class Player : MonoBehaviour
             if (gameObject.transform.position.y < -5f)
             {
                 GameObject.Find("Main Camera").transform.parent = null;
-                Destroy(gameObject);
+                //Destroy(gameObject);
+                
                 Debug.Log("game over");
             }
 
