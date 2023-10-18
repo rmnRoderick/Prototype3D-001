@@ -1,88 +1,129 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+namespace Controllers
 {
-    // Start is called before the first frame update
 
-    //GameObject player=null;
-    private int jumps = 0;
 
-    private float horizontalInput;
-    private float verticalInput;
-    private Vector3 movement;
 
-    [SerializeField] float jumpForce =10f;
-    [SerializeField] float speed =150f;
-    [SerializeField] Rigidbody rb;
-
-    private bool onGround = true;
-    
-    void Start()
+    public class Player : MonoBehaviour
     {
-        
-         rb = gameObject.GetComponent<Rigidbody>();
+        // Start is called before the first frame update
 
-    }
+        [Header("condiguracion")]
+        [SerializeField] float jumpForce = 10f;
+        [SerializeField] float speed = 150f;
+        [SerializeField] Rigidbody rb;
+        [SerializeField] private int lifes;
+        private Health health;
 
-    private void OnCollisionEnter(Collision collision)
-    {
+        private Transform _transform;
+        private Vector3 initialPosition;
 
-        if (collision.gameObject.CompareTag("ground"))
+        //GameObject player=null;
+        private int jumps = 0;
+
+        private float horizontalInput;
+        private float verticalInput;
+        private Vector3 movement;
+
+        private IInput input = null;
+
+        private bool onGround = true;
+
+        private float fallingTime = 0;
+
+        private void Awake()
         {
-            onGround = true;
-            jumps = 0;
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("ground"))
-        {
-            onGround = false;
-        }
-    }
-
-
-    // Update is called once per frame
-    void Update()
-    {
-
-        //salto // doble salto
-        if (Input.GetKeyUp(KeyCode.Space) && jumps < 2 )
-        {
-            jumps++;
-            Vector3 salto = new Vector3(0, jumpForce, 0);
-            rb.AddForce(salto, ForceMode.Impulse);
-            Debug.Log("salto");
+            _transform = transform;
+            rb = gameObject.GetComponent<Rigidbody>();
+            health = gameObject.GetComponent<Health>();
         }
 
-
-        //si esta en el suelo
-        if ( onGround )
+        void Start()
         {
-            horizontalInput = Input.GetAxis("Horizontal");
-            verticalInput = Input.GetAxis("Vertical");
-            movement = new Vector3(horizontalInput, 0, verticalInput);
-            rb.AddForce(speed * Time.deltaTime * movement ,  ForceMode.Force);
+
+            initialPosition=transform.position; 
+
         }
-        else
+
+        public void Configure(IInput _input)
+        {
+            input = _input;
+        }
+
+        private void OnCollisionEnter(Collision collision)
         {
 
-            if (gameObject.transform.position.y < -5f)
+            if (collision.gameObject.CompareTag("ground"))
             {
-                GameObject.Find("Main Camera").transform.parent = null;
-                //Destroy(gameObject);
-                
-                Debug.Log("game over");
+                onGround = true;
+                fallingTime = 0f;
+                jumps = 0;
+            }
+        }
+
+        private void OnCollisionExit(Collision collision)
+        {
+            if (collision.gameObject.CompareTag("ground"))
+            {
+                onGround = false;
+            }
+        }
+
+
+        // Update is called once per frame
+        void Update()
+        {
+
+            //salto // doble salto
+            if (Input.GetKeyUp(KeyCode.Space) && jumps < 2)
+            {
+                jumps++;
+                Vector3 salto = new Vector3(0, jumpForce, 0);
+                rb.AddForce(salto, ForceMode.Impulse);
+                Debug.Log("salto");
             }
 
+
+            //si esta en el suelo
+            if (onGround)
+            {
+                if (input != null)
+                {
+                    rb.AddForce(speed * input.GetMovement(), ForceMode.Force);
+                }
+            }
+            else
+            {
+
+                fallingTime += Time.deltaTime;
+
+                if (fallingTime > 5f)
+                {
+                    //Destroy(gameObject);
+
+                    health.LooseLife();
+                    _transform.position = initialPosition;
+                    fallingTime = 0;
+
+                    if (health.gameOver)
+                    {
+                        Time.timeScale = 0f;
+                        GameObject.Find("Main Camera").transform.parent = null;
+                        Debug.Log("Game Over");
+                    }
+                }
+
+            }
+
+
         }
 
 
     }
-
 
 }
