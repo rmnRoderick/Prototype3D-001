@@ -7,11 +7,17 @@ namespace Controllers
     public class PlayerInstaller : MonoBehaviour
     {
         [SerializeField] private Player player;
-        private KeyboardInput kbInput;
+        public GameState gameState;
 
         void Awake()
         {
-            player.Configure(new KeyboardInput());
+            
+            player.Configure( GetInput(), gameState);
+        }
+
+        private IInput GetInput()
+        {
+            return new KeyboardInput();
         }
 
     }

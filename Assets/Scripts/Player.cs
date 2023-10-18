@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-namespace Controllers
-{
 
 
 
@@ -17,18 +15,19 @@ namespace Controllers
         [SerializeField] float jumpForce = 10f;
         [SerializeField] float speed = 150f;
         [SerializeField] Rigidbody rb;
-        [SerializeField] private int lifes;
-        private Health health;
+        [SerializeField] private float offsetY;
 
+        private GameState gameState;
+
+        private GameObject lastPlatform;
+        public bool gameOver { get; private set; }
+
+        //        [SerializeField] private int lifes;
         private Transform _transform;
         private Vector3 initialPosition;
 
         //GameObject player=null;
         private int jumps = 0;
-
-        private float horizontalInput;
-        private float verticalInput;
-        private Vector3 movement;
 
         private IInput input = null;
 
@@ -36,23 +35,25 @@ namespace Controllers
 
         private float fallingTime = 0;
 
+
         private void Awake()
         {
             _transform = transform;
             rb = gameObject.GetComponent<Rigidbody>();
-            health = gameObject.GetComponent<Health>();
         }
 
         void Start()
         {
 
-            initialPosition=transform.position; 
+            initialPosition=transform.position;
+                    //offsetY = lastPlatform.transform.position.y - initialPosition.y;
 
         }
 
-        public void Configure(IInput _input)
+        public void Configure(IInput _input, GameState _gameState)
         {
             input = _input;
+            gameState = _gameState;
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -63,6 +64,10 @@ namespace Controllers
                 onGround = true;
                 fallingTime = 0f;
                 jumps = 0;
+
+                lastPlatform = collision.gameObject;
+
+                gameState.score.addScore(lastPlatform.GetComponent<Platform>().GetScore());
             }
         }
 
@@ -106,24 +111,27 @@ namespace Controllers
                 {
                     //Destroy(gameObject);
 
-                    health.LooseLife();
-                    _transform.position = initialPosition;
+                    gameState.lifes.LooseLife();
+                    var newPosition = lastPlatform.transform.position;
+                    newPosition.y += offsetY;
+
+                    _transform.position = newPosition;
                     fallingTime = 0;
 
-                    if (health.gameOver)
-                    {
-                        Time.timeScale = 0f;
-                        GameObject.Find("Main Camera").transform.parent = null;
-                        Debug.Log("Game Over");
-                    }
                 }
-
             }
 
+            if (gameState.isGameOver())
+            {
+                Time.timeScale = 0f;
+                GameObject.Find("Main Camera").transform.parent = null;
+                Debug.Log("Game Over");
+            }
 
-        }
 
 
     }
 
+
 }
+

@@ -6,26 +6,63 @@ using UnityEngine;
 public class GameState : MonoBehaviour
 {
     [SerializeField] private float maxTime;
+    [SerializeField] private int maxLifes;
+    [SerializeField] private TextMeshProUGUI lifesText;
     [SerializeField] private TextMeshProUGUI timeText;
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private bool gameOver;
+    
+    public Lifes lifes;
+    public Score score;
+    public Timer timer;
+
+    private bool start = false;
+
+    private void Awake()
     {
-        
+        lifes = new Lifes(maxLifes, lifesText);
+        score = new Score(scoreText);
+        timer = new Timer(maxTime, timeText);
+
+        start = true;
     }
+
+    //public GameState(int maxLifes,TextMeshProUGUI lifesText,TextMeshProUGUI scoreText,TextMeshProUGUI timeText,float maxTime)
+    //{
+    //    lifes = new Lifes(maxLifes,lifesText);
+    //    score = new Score(scoreText);
+    //    timer = new Timer(maxTime,timeText);
+    //}
 
     // Update is called once per frame
     void Update()
     {
-        if (maxTime <=0)
+        if (!start)
         {
-            Time.timeScale = 0f;
-            Debug.Log("Timeout");
+            return;
         }
-        else
+
+        if (!gameOver)
         {
-            maxTime -= Time.deltaTime;
+            timer.RefreshTime();
+
+            score.RefreshScore();
+
+            lifes.RefreshLifes();
         }
-        timeText.SetText("Time: " + Mathf.Round( maxTime));
+
+        if(lifes.getRemainingLifes() <= 0 || timer.getRemainingTime()<=0)
+        {
+            gameOver = true;
+        }
     }
+
+    public bool isGameOver()
+    {
+        return gameOver == true;
+    }
+
+
+
 
 }

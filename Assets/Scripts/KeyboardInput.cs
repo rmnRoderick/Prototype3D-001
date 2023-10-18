@@ -1,7 +1,5 @@
 using UnityEngine;
 
-namespace Controllers
-{
     public class KeyboardInput : IInput
     {
         private Vector3 movement;
@@ -16,4 +14,3 @@ namespace Controllers
 
         }
     }
-}
