@@ -809,7 +809,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 501686b867187e349a6c2446dbac01b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxTime: 50
+  maxTime: 500
   maxLifes: 4
   lifesText: {fileID: 1985878852}
   timeText: {fileID: 402157745}
@@ -1147,8 +1147,16 @@ PrefabInstance:
       value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 8749052531503215336, guid: c98d7e5d6a0ff16418d799a7227ffc3a, type: 3}
+      propertyPath: m_AngularDrag
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8749052531503215336, guid: c98d7e5d6a0ff16418d799a7227ffc3a, type: 3}
       propertyPath: m_Constraints
       value: 112
+      objectReference: {fileID: 0}
+    - target: {fileID: 8749052531503215336, guid: c98d7e5d6a0ff16418d799a7227ffc3a, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8749052531503215337, guid: c98d7e5d6a0ff16418d799a7227ffc3a, type: 3}
       propertyPath: rb
@@ -1160,7 +1168,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8749052531503215337, guid: c98d7e5d6a0ff16418d799a7227ffc3a, type: 3}
       propertyPath: speed
-      value: 3500
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8749052531503215337, guid: c98d7e5d6a0ff16418d799a7227ffc3a, type: 3}
       propertyPath: offsetY
@@ -1168,7 +1176,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8749052531503215337, guid: c98d7e5d6a0ff16418d799a7227ffc3a, type: 3}
       propertyPath: jumpForce
-      value: 15
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 8749052531503215337, guid: c98d7e5d6a0ff16418d799a7227ffc3a, type: 3}
       propertyPath: healthText

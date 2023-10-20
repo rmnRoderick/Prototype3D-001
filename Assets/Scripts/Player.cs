@@ -114,7 +114,7 @@ using UnityEngine;
             {
                 if (input != null)
                 {
-                    rb.AddForce(speed * input.GetMovement(), ForceMode.Force);
+                    rb.AddForce(speed * input.GetMovement().normalized, ForceMode.Force);
                 }
             }
             else
