@@ -81,6 +81,9 @@ using UnityEngine;
                 lastPlatform = collision.gameObject;
 
                 gameState.score.addScore(lastPlatform.GetComponent<Platform>().GetScore());
+
+                gameObject.transform.parent = collision.transform;
+
             }
         }
 
@@ -103,7 +106,6 @@ using UnityEngine;
                 jumps++;
                 Vector3 salto = new Vector3(0, jumpForce, 0);
                 rb.AddForce(salto, ForceMode.Impulse);
-                Debug.Log("salto");
             }
 
 
