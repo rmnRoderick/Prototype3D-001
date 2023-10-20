@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Search;
 using UnityEngine;
 
 
@@ -56,7 +57,19 @@ using UnityEngine;
             gameState = _gameState;
         }
 
-        private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("PickeableObject"))
+        {
+
+            IPickeableObject pickableObject = other.GetComponent<IPickeableObject>();
+
+            pickableObject.Pickup(gameState);
+
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
         {
 
             if (collision.gameObject.CompareTag("ground"))
