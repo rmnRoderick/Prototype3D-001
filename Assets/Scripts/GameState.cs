@@ -16,15 +16,14 @@ public class GameState : MonoBehaviour
     public Score score;
     public Timer timer;
 
-    private bool start = false;
+   
 
     private void Awake()
     {
-        lifes = new Lifes(maxLifes, lifesText);
-        score = new Score(scoreText);
+        lifes = new Lifes(maxLifes);
+        score = new ();
         timer = new Timer(maxTime, timeText);
 
-        start = true;
     }
 
     //public GameState(int maxLifes,TextMeshProUGUI lifesText,TextMeshProUGUI scoreText,TextMeshProUGUI timeText,float maxTime)
@@ -37,18 +36,15 @@ public class GameState : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!start)
-        {
-            return;
-        }
 
         if (!gameOver)
         {
             timer.RefreshTime();
 
-            score.RefreshScore();
+            scoreText.SetText( score.RefreshScore() );
 
-            lifes.RefreshLifes();
+            lifesText.SetText(lifes.RefreshLifes());
+
         }
 
         if(lifes.getRemainingLifes() <= 0 || timer.getRemainingTime()<=0)

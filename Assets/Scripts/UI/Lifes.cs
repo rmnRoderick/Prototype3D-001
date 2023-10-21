@@ -1,43 +1,11 @@
-using TMPro;
-
 public class Lifes 
 {
-    private TextMeshProUGUI lifesText;
-    private int lifes;
+    private int _lifes;
 
-    public Lifes(int _lifes, TextMeshProUGUI _lifesText)
-    {
-        this.lifes = _lifes;
-        this.lifesText = _lifesText;
-    }
-
-    public void addLife(int _lifes = 1)
-    {
-        lifes += _lifes;
-        RefreshLifes();
-    }
-
-    public void LooseLife()
-    {
-        lifes--;
-        RefreshLifes();
-    }
-
-    public void setLifes(int _lifes)
-    {
-        lifes = _lifes;
-    }
-
-    public int getRemainingLifes()
-    {
-        return lifes;
-    }
-
-
-    public void RefreshLifes()
-    {
-        lifesText.SetText("lifes: " + lifes);
-    }
-
+    public Lifes(int lifes)=>this._lifes = lifes;
+    public void addLife(int lifes = 1) => _lifes += lifes;
+    public void LooseLife() => _lifes--;    
+    public int getRemainingLifes()=>_lifes;
+    public string RefreshLifes()=>"lifes: " + _lifes;
 
 }
