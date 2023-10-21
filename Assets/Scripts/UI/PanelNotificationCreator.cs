@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using TMPro;
+using UnityEditor.VersionControl;
 using UnityEngine.EventSystems;
 
 public class PanelNotificationCreator : MonoBehaviour
@@ -13,30 +14,37 @@ public class PanelNotificationCreator : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _titleText;
 
     [SerializeField] private TextMeshProUGUI _contentText;
+
+     private UIEventController _uiEventController;
     // Update is called once per frame
     private bool isActive;
     private GameObject panelGO;
-    void Update()
+    
+    #region Animation
+
+    private const float SHOW_PANEL_ANIMATION_DURATION = 1;
+    private const float HIDE_PANEL_ANIMATION_DURATION = 1;
+    private readonly Vector3 PANEL_FINAL_POSTION_WITH_OFFSET = Vector3.left * 2000;
+
+    #endregion
+
+    private void Start()
     {
-        if (Input.GetKeyDown(KeyCode.P) && !isActive)
-        {
-            var title = "Placeholder";
-            var content =
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
 
-            CreatePanel(title, content);
-        }
-        else if(Input.GetKeyDown(KeyCode.P) && isActive)
-        {
-            DestroyPanel();
-        }
+        _uiEventController.OnShowPanel += CreatePanel;
+        _uiEventController.OnHidePanel += DestroyPanel;
+    }
 
+    private void OnDestroy()
+    {
+        _uiEventController.OnShowPanel -= CreatePanel;
+        _uiEventController.OnHidePanel -= DestroyPanel;
     }
 
     private void DestroyPanel()
     {
         
-        panelGO.transform.DOLocalMove(Vector3.left * 2000, 1).OnComplete(() =>
+        panelGO.transform.DOLocalMove(PANEL_FINAL_POSTION_WITH_OFFSET, SHOW_PANEL_ANIMATION_DURATION).OnComplete(() =>
         {
             Destroy(panelGO);
             isActive = false;
@@ -48,10 +56,10 @@ public class PanelNotificationCreator : MonoBehaviour
     {
         isActive = true;
         panelGO = Instantiate(_panelPrefab, _parent.transform);
-        panelGO.transform.localPosition = Vector3.left * 2000;
-        //_titleText.text = title;
-        //_contentText.text = content;
-        panelGO.transform.DOLocalMove(Vector3.zero, 1);
+        panelGO.transform.localPosition = PANEL_FINAL_POSTION_WITH_OFFSET;
+        _titleText.text = title;
+        _contentText.text = content;
+        panelGO.transform.DOLocalMove(Vector3.zero, HIDE_PANEL_ANIMATION_DURATION);
        
     }
     
