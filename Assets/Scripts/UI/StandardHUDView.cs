@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
+using Controllers;
 using TMPro;
 using UnityEngine;
 
 
 
-public class StandardHUDView : MonoBehaviour
+public class StandardHUDView : MonoBehaviour, IListener
 {
     [SerializeField] private TextMeshProUGUI _lifeText;
 
@@ -18,21 +20,30 @@ public class StandardHUDView : MonoBehaviour
 
     private ISuscriber _uiEventController;
 
+    private Dictionary<UIEventController.UIEventType, Action<string>> actionTypes = new();
     private void Start()
     {
-        _uiEventController.Suscribe(this, UIEventController.UIEventType.LifeEvent);
-        _uiEventController.Suscribe(this, UIEventController.UIEventType.ScoreEvent);
-        _uiEventController.Suscribe(this, UIEventController.UIEventType.TimeEvent);
+        _uiEventController = Installer.instance.GetEventController();
+        _uiEventController.Subscribe(this, UIEventController.UIEventType.LifeEvent);
+        _uiEventController.Subscribe(this, UIEventController.UIEventType.ScoreEvent);
+        _uiEventController.Subscribe(this, UIEventController.UIEventType.TimeEvent);
+        
+        actionTypes.Add(UIEventController.UIEventType.LifeEvent, (data) => UpdateLifeText(data));
+        actionTypes.Add(UIEventController.UIEventType.ScoreEvent, (data) => UpdateScoreText(data));
+        actionTypes.Add(UIEventController.UIEventType.TimeEvent, (data) => UpdateTimeText(data));
     }
     private void OnDestroy()
     {
-        _uiEventController.UnSuscribe(this, UIEventController.UIEventType.LifeEvent);
-        _uiEventController.UnSuscribe(this, UIEventController.UIEventType.ScoreEvent);
-        _uiEventController.UnSuscribe(this, UIEventController.UIEventType.TimeEvent);
+        _uiEventController.UnSubscribe(this, UIEventController.UIEventType.LifeEvent);
+        _uiEventController.UnSubscribe(this, UIEventController.UIEventType.ScoreEvent);
+        _uiEventController.UnSubscribe(this, UIEventController.UIEventType.TimeEvent);
     }
 
     private void UpdateLifeText(string life) => _lifeText.text = BASE_LIFE_TEXT + life;
     private void UpdateTimeText(string time) => _timeText.text = BASE_TIME_TEXT + time;
     private void UpdateScoreText(string score) => _scoreText.text = BASE_SCORE_TEXT + score;
+
+    public void UpdateData(UIEventController.UIEventType type, string data) => actionTypes[type]?.Invoke(data);
+    
     
 }

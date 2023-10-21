@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public class UIEventController : ISuscriber
+public class UIEventController<T>: ISuscriber, INotifier
 {
-    public Action<string, string> OnShowPanel;
-    public Action OnHidePanel;
-
+   
     public enum UIEventType
     {
+        LooseLifeEvent,
+        AddLifeEvent,
+        AddScoreEvent,
         LifeEvent,
         ScoreEvent,
         TimeEvent,
@@ -15,7 +16,7 @@ public class UIEventController : ISuscriber
 
     private Dictionary<UIEventType, List<object>> _suscribers = new ();
 
-    public void Suscribe(object listener, UIEventType eventType)
+    public void Subscribe<T>(object listener, T eventType)
     {
         if(!_suscribers.ContainsKey(eventType) || _suscribers[eventType] == null)
             _suscribers.Add(eventType, new List<object>());
@@ -23,28 +24,38 @@ public class UIEventController : ISuscriber
         _suscribers[eventType].Add(listener);
     }
 
-    public void UnSuscribe(object listener, UIEventType eventType)
+    public void UnSubscribe<T>(object listener, T eventType)
     {
         _suscribers[eventType].Remove(listener);
     }
-
-    public void Notify(UIEventType type, string data)
+    
+    public void Notify<T>(UIEventType type, T data)
     {
-        foreach (INotificator specificSuscriber  in _suscribers[type])
+        foreach (IListener specificSuscriber  in _suscribers[type])
         {
-            specificSuscriber.SendData(data);
+            specificSuscriber.UpdateData(type, data);
         }
     }
+    
+    public event Action<string, string> OnShowPanel;
+    public event Action OnHidePanel;
+    
+}
+
+public interface INotifier
+{
+    public void Notify<T>(UIEventController<T>.UIEventType type, T data);
+
 }
 
 public interface ISuscriber
 {
-    public void Suscribe(object listener, UIEventController.UIEventType eventType);
-    public void UnSuscribe(object listener, UIEventController.UIEventType eventType);
+    public void Subscribe<T>(object listener, UIEventController<T>.UIEventType eventType);
+    public void UnSubscribe<T>(object listener, UIEventController<T>.UIEventType eventType);
 }
 
-public interface INotificator
+public interface IListener
 {
-    void SendData(string data);
+    void UpdateData<T>(UIEventController<T>.UIEventType type, T data);
 }
 

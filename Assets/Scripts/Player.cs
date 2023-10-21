@@ -18,12 +18,11 @@ using UnityEngine;
         [SerializeField] Rigidbody rb;
         [SerializeField] private float offsetY;
 
-        private GameState gameState;
 
         private GameObject lastPlatform;
         public bool gameOver { get; private set; }
 
-        //        [SerializeField] private int lifes;
+        //        [SerializeField] private int Life;
         private Transform _transform;
         private Vector3 initialPosition;
 
@@ -36,11 +35,15 @@ using UnityEngine;
 
         private float fallingTime = 0;
 
+        private Score _score;
+        private Life _life;
 
         private void Awake()
         {
             _transform = transform;
             rb = gameObject.GetComponent<Rigidbody>();
+            
+            
         }
 
         void Start()
@@ -51,10 +54,11 @@ using UnityEngine;
 
         }
 
-        public void Configure(IInput _input, GameState _gameState)
+        public void Configure(IInput _input, Score score, Life life )
         {
             input = _input;
-            gameState = _gameState;
+            _score = score;
+            _life = life;
         }
 
     private void OnTriggerEnter(Collider other)
@@ -64,7 +68,7 @@ using UnityEngine;
 
             IPickeableObject pickableObject = other.GetComponent<IPickeableObject>();
 
-            pickableObject.Pickup(gameState);
+            pickableObject.Pickup();
 
         }
     }
@@ -80,7 +84,7 @@ using UnityEngine;
 
                 lastPlatform = collision.gameObject;
 
-                gameState.score.addScore(lastPlatform.GetComponent<Platform>().GetScore());
+               //gameState.score.addScore(lastPlatform.GetComponent<Platform>().GetScore());
 
                 gameObject.transform.parent = collision.transform;
 
@@ -126,7 +130,7 @@ using UnityEngine;
                 {
                     //Destroy(gameObject);
 
-                    gameState.lifes.LooseLife();
+                    _life.LooseLife();
                     var newPosition = lastPlatform.transform.position;
                     newPosition.y += offsetY;
 
@@ -136,7 +140,7 @@ using UnityEngine;
                 }
             }
 
-            if (gameState.isGameOver())
+            if (_life.getRemainingLifes() <= 0);
             {
                 Time.timeScale = 0f;
                 GameObject.Find("Main Camera").transform.parent = null;

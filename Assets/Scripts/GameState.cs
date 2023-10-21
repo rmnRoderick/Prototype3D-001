@@ -12,7 +12,7 @@ public class GameState : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private bool gameOver;
     
-    public Lifes lifes;
+    public Life Life;
     public Score score;
     public Timer timer;
 
@@ -20,15 +20,13 @@ public class GameState : MonoBehaviour
 
     private void Awake()
     {
-        lifes = new Lifes(maxLifes);
-        score = new ();
         timer = new Timer(maxTime, timeText);
 
     }
 
     //public GameState(int maxLifes,TextMeshProUGUI lifesText,TextMeshProUGUI scoreText,TextMeshProUGUI timeText,float maxTime)
     //{
-    //    lifes = new Lifes(maxLifes,lifesText);
+    //    Life = new Life(maxLifes,lifesText);
     //    score = new Score(scoreText);
     //    timer = new Timer(maxTime,timeText);
     //}
@@ -41,16 +39,13 @@ public class GameState : MonoBehaviour
         {
             timer.RefreshTime();
 
-            scoreText.SetText( score.RefreshScore() );
-
-            //lifesText.SetText(lifes.RefreshLifes());
 
         }
 
-        if(lifes.getRemainingLifes() <= 0 || timer.getRemainingTime()<=0)
+        /*if(Life.getRemainingLifes() <= 0 || timer.getRemainingTime()<=0)
         {
             gameOver = true;
-        }
+        }*/
     }
 
     public bool isGameOver()
