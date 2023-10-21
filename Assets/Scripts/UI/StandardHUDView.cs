@@ -1,7 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using TMPro;
 using UnityEngine;
+
 
 
 public class StandardHUDView : MonoBehaviour
@@ -16,12 +16,19 @@ public class StandardHUDView : MonoBehaviour
     private const string BASE_TIME_TEXT = "TIME: ";
     private const string BASE_SCORE_TEXT = "Score: ";
 
-    [SerializeField] private UIEventController _uiEventController;
-    void Start()
+    private ISuscriber _uiEventController;
+
+    private void Start()
     {
-        _uiEventController.OnUpdateLifeHUD += UpdateLifeText;
-        _uiEventController.OnUpdateTimeHUD += UpdateTimeText;
-        _uiEventController.OnUpdateScoreHUD += UpdateScoreText;
+        _uiEventController.Suscribe(this, UIEventController.UIEventType.LifeEvent);
+        _uiEventController.Suscribe(this, UIEventController.UIEventType.ScoreEvent);
+        _uiEventController.Suscribe(this, UIEventController.UIEventType.TimeEvent);
+    }
+    private void OnDestroy()
+    {
+        _uiEventController.UnSuscribe(this, UIEventController.UIEventType.LifeEvent);
+        _uiEventController.UnSuscribe(this, UIEventController.UIEventType.ScoreEvent);
+        _uiEventController.UnSuscribe(this, UIEventController.UIEventType.TimeEvent);
     }
 
     private void UpdateLifeText(string life) => _lifeText.text = BASE_LIFE_TEXT + life;

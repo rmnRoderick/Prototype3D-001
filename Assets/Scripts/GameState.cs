@@ -43,7 +43,7 @@ public class GameState : MonoBehaviour
 
             scoreText.SetText( score.RefreshScore() );
 
-            lifesText.SetText(lifes.RefreshLifes());
+            //lifesText.SetText(lifes.RefreshLifes());
 
         }
 
