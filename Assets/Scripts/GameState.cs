@@ -38,8 +38,6 @@ public class GameState : MonoBehaviour
         if (!gameOver)
         {
             timer.RefreshTime();
-
-
         }
 
         /*if(Life.getRemainingLifes() <= 0 || timer.getRemainingTime()<=0)

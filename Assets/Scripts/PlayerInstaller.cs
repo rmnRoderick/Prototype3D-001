@@ -11,13 +11,19 @@ namespace Controllers
 
         private Score _score;
         private Life _life;
+
+        private UIEventController _eventController;
         
-        void Awake()
+        void Start()
         {
-            _score = new(Installer.instance.GetEventController());
-            _life = new(Installer.instance.GetEventController());
-            
-            player.Configure( GetInput(), _score,_life);
+            _eventController = Installer.instance.GetEventController();
+
+            _score = new(_eventController);
+
+            _life = new(_eventController);
+
+            //player.Configure( GetInput());
+            player.Configure(GetInput(), _score, _life);
         }
 
         private IInput GetInput()
