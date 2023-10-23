@@ -3,34 +3,31 @@ using UnityEngine;
 
 public class Timer
 {
-    private float maxTime;
-    public bool gameOver;
+    private float _maxTime;
 
-    private TextMeshProUGUI timeText;
+    private INotifier _notifier;
 
-    public Timer(float maxTime, TextMeshProUGUI timeText)
+    public Timer(float maxTime)
     {
-        this.maxTime = maxTime;
-        this.timeText = timeText;
+        _notifier = Installer.instance.GetEventController();
+        _maxTime = maxTime;
     }
 
     public void RefreshTime()
     {
-        if (maxTime <= 0)
+        if (_maxTime <= 0)
         {
             Time.timeScale = 0f;
             Debug.Log("Timeout");
         }
         else
         {
-            maxTime -= Time.deltaTime;
+            _maxTime -= Time.deltaTime;
         }
-        timeText.SetText("Time: " + Mathf.Round(maxTime));
+        //timeText.SetText("Time: " + Mathf.Round(maxTime));
+        _notifier.Notify(UIEventController.UIEventType.TimeEvent, Mathf.Round(_maxTime));
     }
 
-    public float getRemainingTime()
-    {
-        return maxTime;
-    }
+    public float getRemainingTime() => _maxTime;
 
 }

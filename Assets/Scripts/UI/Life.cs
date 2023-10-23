@@ -1,23 +1,23 @@
 public class Life: IListener
 {
     private int _lifes;
-    private INotifier _eventController;
+    private INotifier _notifier;
     private ISuscriber _subscriberController;
 
-    public Life(UIEventController eventController, int lifes = 3)
+    public Life(UIEventController eventController, int lifes)
     {
         _lifes = lifes;
-        _eventController = eventController;
+        _notifier = eventController;
         _subscriberController = eventController;
 
         _subscriberController.Subscribe(this, UIEventController.UIEventType.UpdateLifeEvent);
-
+        _notifier.Notify(UIEventController.UIEventType.LifeEvent, _lifes.ToString());
     }
 
     public void updateLife(int lifes)
     {
         _lifes += lifes;
-        _eventController.Notify(UIEventController.UIEventType.LifeEvent, _lifes.ToString());
+        _notifier.Notify(UIEventController.UIEventType.LifeEvent, _lifes.ToString());
     }
 
     //public void LooseLife()

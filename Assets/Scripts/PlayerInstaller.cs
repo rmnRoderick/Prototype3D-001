@@ -7,10 +7,13 @@ namespace Controllers
     public class PlayerInstaller : MonoBehaviour
     {
         [SerializeField] private Player player;
-        public GameState gameState;
+        [SerializeField] private float maxTime;
+        [SerializeField] private int score;
+        [SerializeField] private int lifes;
 
         private Score _score;
         private Life _life;
+        private Timer _timer;
 
         private UIEventController _eventController;
         
@@ -18,12 +21,17 @@ namespace Controllers
         {
             _eventController = Installer.instance.GetEventController();
 
-            _score = new(_eventController);
-
-            _life = new(_eventController);
+            _score = new(_eventController,score);
+            _timer= new(maxTime);
+            _life = new(_eventController,lifes);
 
             //player.Configure( GetInput());
             player.Configure(GetInput(), _score, _life);
+        }
+
+        private void Update()
+        {
+            _timer.RefreshTime();
         }
 
         private IInput GetInput()

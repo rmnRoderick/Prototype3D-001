@@ -20,7 +20,7 @@ public class GameState : MonoBehaviour
 
     private void Awake()
     {
-        timer = new Timer(maxTime, timeText);
+        //timer = new Timer(maxTime, timeText);
 
     }
 
