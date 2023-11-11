@@ -1,0 +1,17 @@
+{
+    "name": "Pickeable",
+    "rootNamespace": "",
+    "references": [
+        "GUID:f7aaf16c269404743bf2629ff1467734",
+        "GUID:3567bc63fe8c2ac4cb2b43ec9f242481"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

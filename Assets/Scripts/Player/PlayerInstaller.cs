@@ -1,8 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
+using Core;
+using UI.Models;
 using UnityEngine;
 
-namespace Controllers
+namespace Player
 {
     public class PlayerInstaller : MonoBehaviour
     {
@@ -15,7 +15,7 @@ namespace Controllers
         private Life _life;
         private Timer _timer;
 
-        private UIEventController _eventController;
+        private EventController _eventController;
         
         void Start()
         {

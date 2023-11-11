@@ -1,18 +1,17 @@
-﻿using System;
+﻿using Core;
 using UnityEngine;
 
 public class Installer : MonoBehaviour
 {
     public static Installer instance;
-    private UIEventController _uiEventController;
-    [SerializeField] private StandardHUDView _standardHUDView;
+    private EventController _eventController;
 
     private void Awake()
     {
         if(instance == null)
         {
             instance = this;
-            _uiEventController = new UIEventController();
+            _eventController = new EventController();
         }
         else
         {
@@ -20,5 +19,5 @@ public class Installer : MonoBehaviour
         }
  
     }
-    public UIEventController GetEventController() => _uiEventController;
+    public EventController GetEventController() => _eventController;
 }

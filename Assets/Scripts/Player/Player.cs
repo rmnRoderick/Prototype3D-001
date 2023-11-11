@@ -1,13 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using UnityEditor.Search;
+using Pickeables;
+using UI.Models;
 using UnityEngine;
 
-
-
-
+namespace Player
+{
     public class Player : MonoBehaviour
     {
         // Start is called before the first frame update
@@ -50,7 +46,7 @@ using UnityEngine;
         {
 
             initialPosition=transform.position;
-                    //offsetY = lastPlatform.transform.position.y - initialPosition.y;
+            //offsetY = lastPlatform.transform.position.y - initialPosition.y;
 
         }
 
@@ -59,21 +55,21 @@ using UnityEngine;
             input = _input;
             _score = score;
             _life = life;
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("PickeableObject"))
-        {
-
-            IPickeableObject pickableObject = other.GetComponent<IPickeableObject>();
-
-            pickableObject.Pickup();
-
         }
-    }
 
-    private void OnCollisionEnter(Collision collision)
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.CompareTag("PickeableObject"))
+            {
+
+                IPickeableObject pickableObject = other.GetComponent<IPickeableObject>();
+
+                pickableObject.Pickup();
+
+            }
+        }
+
+        private void OnCollisionEnter(Collision collision)
         {
 
             if (collision.gameObject.CompareTag("ground"))
@@ -84,7 +80,7 @@ using UnityEngine;
 
                 lastPlatform = collision.gameObject;
 
-               //gameState.score.addScore(lastPlatform.GetComponent<Platform>().GetScore());
+                //gameState.score.addScore(lastPlatform.GetComponent<Platform>().GetScore());
 
                 gameObject.transform.parent = collision.transform;
 
@@ -146,8 +142,9 @@ using UnityEngine;
 
 
 
+        }
+
+
     }
-
-
 }
 

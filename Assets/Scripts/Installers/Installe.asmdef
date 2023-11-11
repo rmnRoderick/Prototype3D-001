@@ -1,0 +1,16 @@
+{
+    "name": "Installe",
+    "rootNamespace": "",
+    "references": [
+        "GUID:f7aaf16c269404743bf2629ff1467734"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
