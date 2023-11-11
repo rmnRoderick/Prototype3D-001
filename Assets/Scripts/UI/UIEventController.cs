@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 public class UIEventController<T>: ISuscriber, INotifier
 {
-   
     public enum UIEventType
     {
         LooseLifeEvent,
