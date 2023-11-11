@@ -16,7 +16,7 @@ public class ScoreObject : MonoBehaviour, IPickeableObject
 
     public void Pickup()
     {
-        _eventController.Notify(UIEventController.UIEventType.ScoreEvent, score.ToString());
+        _eventController.Notify(UIEventController.UIEventType.AddScoreEvent, score);
         score = 0;
         
         var particleSys = Instantiate(particlePrefab,transform.position,transform.rotation);

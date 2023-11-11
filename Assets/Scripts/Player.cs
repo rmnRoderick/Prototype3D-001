@@ -59,7 +59,7 @@ using UnityEngine;
             input = _input;
             _score = score;
             _life = life;
-        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -116,10 +116,7 @@ using UnityEngine;
             //si esta en el suelo
             if (onGround)
             {
-                if (input != null)
-                {
-                    rb.AddForce(speed * input.GetMovement().normalized, ForceMode.Force);
-                }
+                rb.AddForce(speed * input.GetMovement().normalized, ForceMode.Force);
             }
             else
             {
@@ -130,7 +127,7 @@ using UnityEngine;
                 {
                     //Destroy(gameObject);
 
-                    _life.LooseLife();
+                    _life.updateLife(-1);
                     var newPosition = lastPlatform.transform.position;
                     newPosition.y += offsetY;
 
@@ -140,12 +137,12 @@ using UnityEngine;
                 }
             }
 
-            if (_life.getRemainingLifes() <= 0);
-            {
-                Time.timeScale = 0f;
-                GameObject.Find("Main Camera").transform.parent = null;
-                Debug.Log("Game Over");
-            }
+            //if (_life.getRemainingLifes() <= 0)
+            //{
+            //    Time.timeScale = 0f;
+            //    GameObject.Find("Main Camera").transform.parent = null;
+            //    Debug.Log("Game Over");
+            //}
 
 
 

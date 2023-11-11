@@ -1,35 +1,37 @@
 public class Life: IListener
 {
     private int _lifes;
-    private INotifier _eventController;
+    private INotifier _notifier;
+    private ISuscriber _subscriberController;
 
-    public Life(INotifier eventController, int lifes = 3)
+    public Life(UIEventController eventController, int lifes)
     {
         _lifes = lifes;
-        _eventController = eventController;
+        _notifier = eventController;
+        _subscriberController = eventController;
+
+        _subscriberController.Subscribe(this, UIEventController.UIEventType.UpdateLifeEvent);
+        _notifier.Notify(UIEventController.UIEventType.LifeEvent, _lifes.ToString());
     }
 
-    public void addLife(int lifes = 1)
+    public void updateLife(int lifes)
     {
         _lifes += lifes;
-        _eventController.Notify(UIEventController.UIEventType.LifeEvent, _lifes.ToString());
+        _notifier.Notify(UIEventController.UIEventType.LifeEvent, _lifes.ToString());
     }
 
-    public void LooseLife()
-    {
-        _lifes--;
-        _eventController.Notify(UIEventController.UIEventType.LifeEvent, _lifes.ToString());
-    }     
+    //public void LooseLife()
+    //{
+    //    _lifes--;
+    //    _eventController.Notify(UIEventController.UIEventType.LifeEvent, _lifes.ToString());
+    //}     
     public int getRemainingLifes()=>_lifes;
 
 
-    public void UpdateData(UIEventController.UIEventType type, string data)
+    public void UpdateData<T>(UIEventController.UIEventType type, T data)
     {
-        throw new System.NotImplementedException();
+        updateLife(int.Parse(data.ToString()));
     }
 
-    public void UpdateData(UIEventController.UIEventType type, int data)
-    {
-        
-    }
+
 }

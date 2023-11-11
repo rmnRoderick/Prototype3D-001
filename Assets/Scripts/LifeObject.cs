@@ -1,4 +1,3 @@
-using Controllers;
 using UnityEngine;
 
 public class LifeObject : MonoBehaviour, IPickeableObject
@@ -14,7 +13,7 @@ public class LifeObject : MonoBehaviour, IPickeableObject
     public void Pickup()
     {
         //_eventController.Notify(UIEventController.UIEventType.LifeEvent, lifes.ToString());
-        _eventController.Notify(UIEventController.UIEventType.AddLifeEvent, lifes);
+        _eventController.Notify(UIEventController.UIEventType.UpdateLifeEvent, lifes);
         lifes = 0;
         
         var particleSys = Instantiate(particlePrefab,transform.position,transform.rotation);

@@ -1,22 +1,24 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Controllers
+public class Installer : MonoBehaviour
 {
-    public class Installer : MonoBehaviour
-    {
-        public static Installer instance;
-        private UIEventController _uiEventController;
-        [SerializeField] private StandardHUDView _standardHUDView;
+    public static Installer instance;
+    private UIEventController _uiEventController;
+    [SerializeField] private StandardHUDView _standardHUDView;
 
-        private void Awake()
+    private void Awake()
+    {
+        if(instance == null)
         {
-            if(instance == null)
-                instance = this;
-            
-            _uiEventController = new();
- 
+            instance = this;
+            _uiEventController = new UIEventController();
         }
-        public UIEventController GetEventController() => _uiEventController;
+        else
+        {
+            Destroy(gameObject);
+        }
+ 
     }
+    public UIEventController GetEventController() => _uiEventController;
 }

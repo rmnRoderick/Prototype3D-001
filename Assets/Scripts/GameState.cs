@@ -20,7 +20,7 @@ public class GameState : MonoBehaviour
 
     private void Awake()
     {
-        timer = new Timer(maxTime, timeText);
+        //timer = new Timer(maxTime, timeText);
 
     }
 
@@ -38,8 +38,6 @@ public class GameState : MonoBehaviour
         if (!gameOver)
         {
             timer.RefreshTime();
-
-
         }
 
         /*if(Life.getRemainingLifes() <= 0 || timer.getRemainingTime()<=0)

@@ -27,7 +27,7 @@ public class StandardHUDView : MonoBehaviour, IListener
         _uiEventController.Subscribe(this, UIEventController.UIEventType.LifeEvent);
         _uiEventController.Subscribe(this, UIEventController.UIEventType.ScoreEvent);
         _uiEventController.Subscribe(this, UIEventController.UIEventType.TimeEvent);
-        
+            
         actionTypes.Add(UIEventController.UIEventType.LifeEvent, (data) => UpdateLifeText(data));
         actionTypes.Add(UIEventController.UIEventType.ScoreEvent, (data) => UpdateScoreText(data));
         actionTypes.Add(UIEventController.UIEventType.TimeEvent, (data) => UpdateTimeText(data));
@@ -39,11 +39,12 @@ public class StandardHUDView : MonoBehaviour, IListener
         _uiEventController.UnSubscribe(this, UIEventController.UIEventType.TimeEvent);
     }
 
-    private void UpdateLifeText(string life) => _lifeText.text = BASE_LIFE_TEXT + life;
-    private void UpdateTimeText(string time) => _timeText.text = BASE_TIME_TEXT + time;
-    private void UpdateScoreText(string score) => _scoreText.text = BASE_SCORE_TEXT + score;
+    private void UpdateLifeText<T>(T life) => _lifeText.text = BASE_LIFE_TEXT + life;
+    private void UpdateTimeText<T>(T time) => _timeText.text = BASE_TIME_TEXT + time;
+    private void UpdateScoreText<T>(T score) => _scoreText.text = BASE_SCORE_TEXT + score;
 
-    public void UpdateData(UIEventController.UIEventType type, string data) => actionTypes[type]?.Invoke(data);
-    
-    
+    public void UpdateData<T>(UIEventController.UIEventType type, T data)
+    {
+        actionTypes[type]?.Invoke(data.ToString());
+    }
 }
